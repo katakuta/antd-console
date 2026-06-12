@@ -95,7 +95,7 @@ export default function UserManagementPage() {
       <Card>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
           <SearchBar fields={SEARCH_FIELDS} onSubmit={handleSubmit} />
-          <Button type="primary" icon={<Plus size="middle" />} onClick={openCreate}>{t('common.create')}</Button>
+          <Button type="primary" icon={<Plus size={16} />} onClick={openCreate}>{t('common.create')}</Button>
         </div>
         <DataTable columns={columns} rows={rows} rowActions={rowActions} rowKey="id" loading={loading}
           onRowAction={handleRowAction}

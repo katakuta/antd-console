@@ -118,7 +118,7 @@ export default function FormDemoPage() {
               {(fields, { add, remove }) => (
                 <>
                   {fields.map((field) => (
-                    <Space key={field.key} align="baseline" style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+                    <Space key={field.key} align="baseline" style={{ display: 'flex', marginBottom: 8 }}>
                       <Form.Item {...field} name={[field.name, 'key']} rules={[{ required: true, message: 'Key required' }]}>
                         <Input placeholder="Key" style={{ width: 200 }} />
                       </Form.Item>

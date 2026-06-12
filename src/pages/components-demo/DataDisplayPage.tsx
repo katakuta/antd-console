@@ -7,7 +7,7 @@ export default function DataDisplayPage() {
   const { t } = useI18n();
 
   return (
-    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+    <Space direction="vertical" size={16} style={{ width: '100%' }}>
       <div>
         <Typography.Title level={2} style={{ marginTop: 0, marginBottom: 4 }}>{t('dataDisplay.title')}</Typography.Title>
         <Typography.Text type="secondary">{t('dataDisplay.description')}</Typography.Text>
@@ -17,10 +17,10 @@ export default function DataDisplayPage() {
       <Card title="Statistics">
         <Row gutter={[24, 24]}>
           {[
-            { title: 'Total Revenue', value: 126560, prefix: '$', suffix: '', precision: 2, icon: <ArrowUp size="middle" color="#52c41a" />, trend: '+12.5%', trendColor: '#52c41a' },
-            { title: 'Active Users', value: 8846, suffix: '', icon: <ArrowUp size="middle" color="#52c41a" />, trend: '+3.2%', trendColor: '#52c41a' },
-            { title: 'Bounce Rate', value: 32.1, suffix: '%', precision: 1, icon: <ArrowDown size="middle" color="#52c41a" />, trend: '-2.1%', trendColor: '#52c41a' },
-            { title: 'Avg. Response', value: 256, suffix: 'ms', icon: <ArrowDown size="middle" color="#fa8c16" />, trend: '+8ms', trendColor: '#fa8c16' },
+            { title: 'Total Revenue', value: 126560, prefix: '$', suffix: '', precision: 2, icon: <ArrowUp size={16} color="#52c41a" />, trend: '+12.5%', trendColor: '#52c41a' },
+            { title: 'Active Users', value: 8846, suffix: '', icon: <ArrowUp size={16} color="#52c41a" />, trend: '+3.2%', trendColor: '#52c41a' },
+            { title: 'Bounce Rate', value: 32.1, suffix: '%', precision: 1, icon: <ArrowDown size={16} color="#52c41a" />, trend: '-2.1%', trendColor: '#52c41a' },
+            { title: 'Avg. Response', value: 256, suffix: 'ms', icon: <ArrowDown size={16} color="#fa8c16" />, trend: '+8ms', trendColor: '#fa8c16' },
           ].map((item, idx) => (
             <Col xs={24} sm={12} lg={6} key={idx}>
               <Card size="small">
@@ -39,7 +39,7 @@ export default function DataDisplayPage() {
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>
           <Card title="Progress Indicators">
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <Space direction="vertical" size={16} style={{ width: '100%' }}>
               <div>
                 <Typography.Text>System Uptime</Typography.Text>
                 <Progress percent={99.9} status="active" strokeColor="#52c41a" />
@@ -75,7 +75,7 @@ export default function DataDisplayPage() {
               </div>
               <div>
                 <Typography.Text style={{ display: 'block', marginBottom: 8 }}>Badges</Typography.Text>
-                <Space wrap size="middle">
+                <Space wrap size={16}>
                   <Badge status="success" text="Online" />
                   <Badge status="processing" text="Running" />
                   <Badge status="warning" text="Warning" />
