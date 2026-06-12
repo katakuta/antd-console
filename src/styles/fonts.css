@@ -1,0 +1,28 @@
+/* Plus Jakarta Sans — UI / body text (Variable Font) */
+@font-face {
+  font-family: 'plusJakarta';
+  src: url('../assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf')
+    format('truetype');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'plusJakarta';
+  src: url('../assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Italic-VariableFont_wght.ttf')
+    format('truetype');
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Geist Mono — numbers / code (Variable Font) */
+@font-face {
+  font-family: 'geistMono';
+  src: url('../assets/fonts/Geist_Mono/GeistMono-VariableFont_wght.ttf')
+    format('truetype');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}

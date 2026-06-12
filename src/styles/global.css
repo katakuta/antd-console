@@ -1,0 +1,674 @@
+:root {
+  --app-font-sans:
+    'plusJakarta', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --app-font-mono:
+    'geistMono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  --app-page-max-width: 1440px;
+  --app-body-bg: #f6f7f9;
+  --app-glass-bg: rgba(246, 247, 249, 0.72);
+  /* layering: below antd Modal/Drawer (zIndexPopupBase ~ 1000), above table fixed columns */
+  --app-z-header: 900;
+  --app-z-topnav: 890;
+  --app-z-float: 880;
+
+  /* Layout chrome heights — used by full-screen pages to calculate remaining space */
+  --app-header-h: 56px;
+  --app-topnav-h: 44px;
+  --app-breadcrumb-h: 28px; /* 12px font * 1.57 line-height + 8px margin-bottom */
+  /* Default chrome = header + breadcrumb (side layout); top layout overrides via [data-layout] */
+  --app-chrome-h: calc(var(--app-header-h) + var(--app-breadcrumb-h) + 42px);
+  --app-content-h: calc(100vh - var(--app-chrome-h));
+}
+
+[data-theme-mode='dark'] {
+  --app-body-bg: #0f172a;
+  --app-glass-bg: rgba(15, 23, 42, 0.72);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+ * Scrollbar — 全局滚动条样式（含 antd 内部组件滚动容器）
+ * 说明：
+ * - WebKit 滚动条伪元素需要“带选择器”才会稳定地作用于各个滚动容器，
+ *   因此用 `*::-webkit-scrollbar` 而不是裸写 `::-webkit-scrollbar`。
+ * - Firefox 需要 `scrollbar-width/scrollbar-color` 另行设置。
+ * ============================================================ */
+:root {
+  --app-scrollbar-size: 5px;
+  --app-scrollbar-thumb: var(--ant-color-fill-secondary, #d0d0d0);
+  --app-scrollbar-thumb-hover: var(--ant-color-fill, #bdbdbd);
+}
+
+[data-theme-mode='dark'] {
+  --app-scrollbar-thumb: var(--ant-color-fill, rgba(255, 255, 255, 0.18));
+  --app-scrollbar-thumb-hover: var(--ant-color-fill-secondary, rgba(255, 255, 255, 0.26));
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-scrollbar-thumb) transparent;
+}
+
+/* WebKit / Chromium */
+*::-webkit-scrollbar {
+  width: var(--app-scrollbar-size);
+  height: var(--app-scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--app-scrollbar-thumb);
+  border-radius: 9999px;
+  border: 1px solid transparent; /* 让圆角更顺滑 */
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--app-scrollbar-thumb-hover);
+}
+
+/* antd Table/Dropdown 等常见滚动容器兜底（防止某些 UA 不吃 `*`） */
+.ant-table-body::-webkit-scrollbar,
+.ant-table-content::-webkit-scrollbar,
+.ant-table-sticky-scroll::-webkit-scrollbar,
+.ant-select-dropdown::-webkit-scrollbar,
+.ant-dropdown-menu::-webkit-scrollbar,
+.ant-modal-body::-webkit-scrollbar,
+.ant-drawer-body::-webkit-scrollbar {
+  width: var(--app-scrollbar-size);
+  height: var(--app-scrollbar-size);
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--app-font-sans);
+  background: var(--app-body-bg);
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+ * Shell
+ * ============================================================ */
+.main-console-shell {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Top layout: header + topnav + breadcrumb chrome is taller */
+[data-layout='top'] {
+  --app-chrome-h: calc(var(--app-header-h) + var(--app-topnav-h) + var(--app-breadcrumb-h));
+  --app-content-h: calc(100vh - var(--app-chrome-h));
+}
+
+/* ============================================================
+ * Header (56px)
+ * ============================================================ */
+.main-console-header {
+  height: 56px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--app-z-header);
+  background: var(--app-glass-bg) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-bottom: 1px solid var(--ant-color-border-secondary, #e1e5e7);
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04); */
+}
+
+.main-console-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.main-console-header-divider {
+  width: 1px;
+  height: 22px;
+  border-radius: 1px;
+  opacity: 0.9;
+  background: var(--ant-color-border-secondary, #e1e5e7);
+}
+
+/* Side 模式：让 search 与内容区 padding(20px) 左对齐（header padding 为 24px） */
+.main-console-header-left-pad {
+  margin-left: -4px;
+}
+
+.main-console-header-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  /* padding: 4px 8px; */
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.main-console-header-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #27364d 0%, #4d9c25 100%);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.main-console-header-title {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.main-console-header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.main-console-header-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-console-search-trigger {
+  width: 260px;
+  height: 36px;
+  border-radius: var(--ant-border-radius, 8px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid var(--ant-color-border-secondary, #e1e5e7);
+  background: transparent;
+  color: var(--ant-color-text-secondary);
+}
+
+.main-console-search-trigger:hover {
+  background: var(--ant-color-fill-quaternary, rgba(0, 0, 0, 0.04));
+}
+
+.main-console-search-trigger:active {
+  background: var(--ant-color-fill-tertiary, rgba(0, 0, 0, 0.06));
+}
+
+.main-console-search-trigger-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ant-color-text-tertiary);
+}
+
+.main-console-search-trigger-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  color: var(--ant-color-text-tertiary);
+}
+
+.main-console-search-trigger-kbd {
+  flex: 0 0 auto;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(225, 229, 231, 0.75);
+  color: var(--ant-color-text-tertiary);
+  background: transparent;
+}
+
+@media (max-width: 900px) {
+  .main-console-search-trigger {
+    display: none;
+  }
+}
+
+/* ============================================================
+ * Main area
+ * ============================================================ */
+.main-console-main {
+  height: 100%;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.main-console-main-inner {
+  min-height: 100%;
+}
+
+.main-console-backtop {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 40px;
+  height: 40px;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  z-index: var(--app-z-float);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+/* 覆盖 antd circle button 的默认 min-width（其选择器通常为 .ant-btn.ant-btn-circle.ant-btn） */
+.main-console-backtop.ant-btn.ant-btn-circle {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+}
+
+/* ============================================================
+ * Sider
+ * ============================================================ */
+.main-console-sider {
+  height: 100vh;
+  position: relative;
+  overflow: visible;
+}
+
+/* Navigation theming
+ * - 这一整块优先消费 `--app-nav-*`，而不是直接散落使用 `--ant-color-*`
+ * - `--app-nav-*` 由 themeConfig.ts 中的 buildNavigationCssVars() 从导航 token 映射而来
+ * - 容器/浮层：`bg-container` `bg-elevated`
+ * - 交互状态：`bg-hover` `primary` `primary-bg`
+ * - 文本与边界：`text` `text-secondary` `border`
+ */
+.main-console-sider-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--app-nav-bg-container, var(--ant-color-bg-container));
+  color: var(--app-nav-text, var(--ant-color-text));
+}
+
+/* -- top brand (56px) -- */
+.main-console-sider-brand-row {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+.main-console-sider-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.main-console-sider-close {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--app-nav-text, var(--ant-color-text));
+}
+
+.main-console-sider-close:hover {
+  background: var(--app-nav-bg-hover, var(--ant-color-bg-text-hover)) !important;
+  color: var(--app-nav-text, var(--ant-color-text)) !important;
+}
+
+.main-console-sider-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #27364d 0%, #4d9c25 100%);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.main-console-sider-title {
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* -- menu wrap -- */
+.main-console-menu-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--ant-padding-xxs, 4px) var(--ant-padding-xs, 8px);
+}
+
+.main-console-menu {
+  background: transparent;
+  border-inline-end: 0 !important;
+}
+
+.main-console-menu :where(.ant-menu-sub),
+.main-console-menu :where(.ant-menu-submenu > .ant-menu),
+.main-console-menu :where(.ant-menu-inline .ant-menu-sub.ant-menu-inline) {
+  background: transparent !important;
+}
+
+/* submenu 标题（一级）：保持原 group-title 样式，增加右侧展开折叠 chevron */
+.main-console-menu .ant-menu-submenu-title {
+  margin: 0 !important;
+  padding: 0 var(--ant-padding-sm, 12px) !important;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.5;
+}
+
+/* submenu 容器去 margin */
+.main-console-menu .ant-menu-submenu {
+  margin: 0 !important;
+}
+
+/* leaf item（二级）：无额外缩进（一级非可点击页面，不缩进） */
+.main-console-menu .ant-menu-item {
+  margin: 0 !important;
+  padding: 0 var(--ant-padding-sm, 12px) !important;
+  height: 32px;
+  line-height: 32px;
+  font-size: 13px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* -- collapse trigger (sider-inner 直接子级，溢出不被裁切) -- */
+.main-console-sider-collapse {
+  position: absolute;
+  top: 72px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  padding: 0;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--app-nav-bg-elevated, var(--ant-color-bg-elevated));
+  color: var(--app-nav-text-secondary, var(--ant-color-text-secondary));
+  border: 1px solid var(--app-nav-border, var(--ant-color-border-secondary));
+}
+
+.main-console-sider-collapse:hover {
+  background: var(--app-nav-bg-container, var(--ant-color-bg-container)) !important;
+  color: var(--app-nav-primary, var(--ant-color-primary)) !important;
+  border-color: var(--app-nav-primary, var(--ant-color-primary)) !important;
+}
+
+/* -- icon rail (collapsed) -- */
+.main-console-icon-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 8px;
+}
+
+.main-console-icon-rail-btn {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--app-nav-text, var(--ant-color-text));
+  transition: background-color 0.15s ease;
+}
+
+.main-console-icon-rail-btn:hover {
+  background-color: var(--app-nav-bg-hover, var(--ant-color-bg-text-hover));
+}
+
+.main-console-icon-rail-btn--active {
+  background-color: var(--app-nav-primary-bg, var(--ant-color-primary-bg));
+  color: var(--app-nav-primary, var(--ant-color-primary));
+}
+
+/* -- footer (77px) -- */
+.main-console-sider-footer {
+  height: 77px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--app-nav-border, var(--ant-color-border-secondary));
+  flex-shrink: 0;
+}
+
+.main-console-sider-account-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.main-console-sider-account-name {
+  font-size: 12px;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--app-nav-text, var(--ant-color-text));
+}
+
+.main-console-sider-account-sub {
+  font-size: 11px;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--app-nav-text-secondary, var(--ant-color-text-secondary));
+}
+
+.main-console-sider-logout {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--app-nav-text-secondary, var(--ant-color-text-secondary));
+}
+
+.main-console-sider-logout:hover {
+  background: var(--app-nav-bg-hover, var(--ant-color-bg-text-hover)) !important;
+  color: var(--app-nav-text, var(--ant-color-text)) !important;
+}
+
+/* ============================================================
+ * Content
+ * ============================================================ */
+.main-console-content {
+  padding: 24px;
+}
+
+/* Container: Boxed — 内容区域限定最大宽度 */
+[data-container='boxed'] .main-console-page {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Container: Fluid — 铺满页面（无限制） */
+[data-container='fluid'] .main-console-page {
+  max-width: none;
+}
+
+.main-console-breadcrumb {
+  /* margin-bottom: var(--ant-margin-xs, 8px); */
+  font-size: var(--ant-font-size-sm, 12px);
+}
+
+.main-console-breadcrumb ol {
+  gap: var(--ant-margin-xxs, 4px);
+}
+
+.main-console-breadcrumb a {
+  color: var(--ant-color-text-secondary);
+  cursor: pointer;
+}
+
+.main-console-breadcrumb a:hover {
+  color: var(--ant-color-primary);
+}
+
+.main-console-breadcrumb li:last-child {
+  color: var(--ant-color-text);
+}
+
+.main-console-page {
+  width: 100%;
+  max-width: var(--app-page-max-width);
+  margin: 0 auto;
+}
+
+/* ============================================================
+ * TopNav — secondary header (44px)
+ * ============================================================ */
+.main-console-topnav {
+  position: sticky;
+  /* 贴在主 Header 下方（Header 高度为 56px） */
+  top: 56px;
+  height: 44px;
+  flex-shrink: 0;
+  z-index: var(--app-z-topnav);
+  background: var(--app-glass-bg);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.04); */
+}
+
+/* full-width border without side padding */
+.main-console-topnav::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ant-color-border-secondary, #e1e5e7);
+}
+
+.main-console-topnav-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* 二级 Header 左侧 padding 多 8px，表明层级关系 */
+  padding: 0 24px 0 32px;
+}
+
+.main-console-topnav-item {
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.main-console-topnav-item--active {
+  color: var(--ant-color-primary) !important;
+  background: transparent !important;
+  font-weight: 600;
+}
+
+.main-console-topnav-item--active :where(svg) {
+  color: var(--ant-color-primary) !important;
+}
+
+/* TopNav dropdown panel: 更接近参考图的「子菜单面板」宽度与留白 */
+.main-console-topnav-menu {
+  padding: 6px;
+}
+
+/* ============================================================
+ * Misc
+ * ============================================================ */
+.metric-number {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+ * Table z-index override — Header / TopNav must sit above fixed columns
+ * ============================================================ */
+.ant-table-cell-fix-left,
+.ant-table-cell-fix-right {
+  z-index: 1 !important;
+}
+
+.ant-table-sticky-holder {
+  z-index: 1 !important;
+}
+
+/* ============================================================
+ * DataTable — 圆角裁切（Table 结构内部有多层容器，需在 container 上设置）
+ * ============================================================ */
+.main-console-data-table :where(.ant-table-container) {
+  border-radius: var(--ant-border-radius-lg, var(--ant-border-radius, 8px));
+  overflow: hidden;
+}
