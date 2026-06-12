@@ -35,7 +35,16 @@ function CardLabel({ icon, children, color }: { icon: React.ReactNode; children:
 
 const descLabelStyle: React.CSSProperties = { fontWeight: 500, color: 'var(--ant-color-text-secondary)', fontSize: 12, lineHeight: '20px' };
 const descContentStyle: React.CSSProperties = { fontWeight: 500, fontSize: 13, lineHeight: '20px' };
-const descItemIcon: React.CSSProperties = { marginRight: 6, verticalAlign: 'middle', flexShrink: 0 };
+const descItemIcon: React.CSSProperties = { marginRight: 6, flexShrink: 0 };
+
+function DescLabel({ icon: Icon, children }: { icon: React.ElementType; children: React.ReactNode }) {
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+      <Icon size={16} style={descItemIcon} />
+      {children}
+    </span>
+  );
+}
 
 // ── Main ──
 
@@ -55,10 +64,8 @@ export default function ProfilePage() {
 
   if (loading) return <Spin size="large" style={{ display: 'block', margin: '120px auto' }} />;
 
-  const icon16 = { size: 16, style: descItemIcon };
-
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
         <div>
@@ -85,94 +92,19 @@ export default function ProfilePage() {
         styles={{ body: { padding: '12px 24px 18px' } }}
       >
         <Descriptions column={{ xs: 1, sm: 2, lg: 3 }} size="small" colon={false} labelStyle={descLabelStyle} contentStyle={descContentStyle} style={{ lineHeight: '20px' }}>
-          <Descriptions.Item
-            label={
-              <>
-                <Mail {...icon16} />
-                Email
-              </>
-            }
-          >
-            {profile?.email}
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <Globe {...icon16} />
-                Language
-              </>
-            }
-          >
-            {profile?.language}
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <MapPin {...icon16} />
-                Country
-              </>
-            }
-          >
+          <Descriptions.Item label={<DescLabel icon={Mail}>Email</DescLabel>}>{profile?.email}</Descriptions.Item>
+          <Descriptions.Item label={<DescLabel icon={Globe}>Language</DescLabel>}>{profile?.language}</Descriptions.Item>
+          <Descriptions.Item label={<DescLabel icon={MapPin}>Country</DescLabel>}>
             {profile?.country}, {profile?.city}
           </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <Building2 {...icon16} />
-                Company
-              </>
-            }
-          >
-            {profile?.company}
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <Layers {...icon16} />
-                Department
-              </>
-            }
-          >
-            {profile?.department}
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <Phone {...icon16} />
-                Phone
-              </>
-            }
-          >
-            {profile?.phone}
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <Clock {...icon16} />
-                Timezone
-              </>
-            }
-          >
-            {profile?.timezone}
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <CheckCircle {...icon16} />
-                Status
-              </>
-            }
-          >
+          <Descriptions.Item label={<DescLabel icon={Building2}>Company</DescLabel>}>{profile?.company}</Descriptions.Item>
+          <Descriptions.Item label={<DescLabel icon={Layers}>Department</DescLabel>}>{profile?.department}</Descriptions.Item>
+          <Descriptions.Item label={<DescLabel icon={Phone}>Phone</DescLabel>}>{profile?.phone}</Descriptions.Item>
+          <Descriptions.Item label={<DescLabel icon={Clock}>Timezone</DescLabel>}>{profile?.timezone}</Descriptions.Item>
+          <Descriptions.Item label={<DescLabel icon={CheckCircle}>Status</DescLabel>}>
             <Tag color={profile?.activeStatus === 'ACTIVE' ? 'green' : 'default'}>{profile?.activeStatus}</Tag>
           </Descriptions.Item>
-          <Descriptions.Item
-            label={
-              <>
-                <History {...icon16} />
-                Member Since
-              </>
-            }
-          >
+          <Descriptions.Item label={<DescLabel icon={History}>Member Since</DescLabel>}>
             {profile?.createdAt ? dayjs(profile.createdAt).format('MMM D, YYYY') : '-'}
           </Descriptions.Item>
         </Descriptions>

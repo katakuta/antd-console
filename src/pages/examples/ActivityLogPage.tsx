@@ -28,7 +28,7 @@ export default function ActivityLogPage() {
   };
 
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       <div>
         <Typography.Title level={2} style={{ marginTop: 0, marginBottom: 4 }}>{t('nav.activityLog')}</Typography.Title>
         <Typography.Text type="secondary">Recent system activity feed.</Typography.Text>

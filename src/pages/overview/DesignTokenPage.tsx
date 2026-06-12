@@ -27,7 +27,7 @@ export default function DesignTokenPage() {
   const { t } = useI18n();
 
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       <div>
         <Typography.Title level={2} style={{ marginTop: 0, marginBottom: 4 }}>Design Tokens</Typography.Title>
         <Typography.Text type="secondary">Ant Design theme tokens and component surface preview.</Typography.Text>

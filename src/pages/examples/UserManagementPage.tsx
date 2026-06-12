@@ -87,7 +87,7 @@ export default function UserManagementPage() {
   ];
 
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       <div>
         <Typography.Title level={2} style={{ marginTop: 0, marginBottom: 4 }}>{t('nav.userManagement')}</Typography.Title>
         <Typography.Text type="secondary">Full CRUD example with search, create, edit, and delete operations.</Typography.Text>
@@ -95,7 +95,7 @@ export default function UserManagementPage() {
       <Card>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
           <SearchBar fields={SEARCH_FIELDS} onSubmit={handleSubmit} />
-          <Button type="primary" icon={<Plus size={16} />} onClick={openCreate}>{t('common.create')}</Button>
+          <Button type="primary" icon={<Plus size="middle" />} onClick={openCreate}>{t('common.create')}</Button>
         </div>
         <DataTable columns={columns} rows={rows} rowActions={rowActions} rowKey="id" loading={loading}
           onRowAction={handleRowAction}

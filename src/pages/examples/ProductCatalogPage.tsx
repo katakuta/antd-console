@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Empty, Input, Rate, Row, Segmented, Select, Space, Spin, Tag, Typography } from 'antd';
+import { Card, Col, Empty, Input, Rate, Row, Segmented, Select, Space, Spin, Tag, Typography, theme } from 'antd';
 import { AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { DataTable } from '@/components/table-kit';
 import type { DataTableColumn } from '@/components/table-kit';
@@ -31,6 +31,8 @@ const STATUS_STYLE: Record<string, { color: string; bg: string }> = {
 
 export default function ProductCatalogPage() {
   const { t } = useI18n();
+  const { token } = theme.useToken();
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
   const [viewMode, setViewMode] = React.useState<'card' | 'table'>('card');
   const [loading, setLoading] = React.useState(true);
   const [rows, setRows] = React.useState<DemoProduct[]>([]);
@@ -110,7 +112,7 @@ export default function ProductCatalogPage() {
   ];
 
   return (
-    <Space direction="vertical" size={20} style={{ width: '100%' }}>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <div>
         <Typography.Title level={2} style={{ margin: '0 0 4px', fontWeight: 600, letterSpacing: '-0.02em' }}>
           {t('nav.productCatalog')}
@@ -120,9 +122,9 @@ export default function ProductCatalogPage() {
         </Typography.Text>
       </div>
 
-      <Card style={{ borderRadius: 12, border: '1px solid var(--ant-color-border-secondary)' }} styles={{ body: { padding: '20px 22px' } }}>
+      <Card style={{ borderRadius: token.borderRadiusLG, border: `1px solid ${token.colorBorderSecondary}` }} styles={{ body: { padding: pad(token.paddingMD, token.paddingContentHorizontal) } }}>
         {/* Toolbar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: token.marginMD, flexWrap: 'wrap', gap: token.marginSM }}>
           <Space wrap size={12}>
             <Input.Search
               placeholder="Search products..."
@@ -180,10 +182,10 @@ export default function ProductCatalogPage() {
                     {/* Card */}
                     <div
                       style={{
-                        borderRadius: 12,
-                        border: '1px solid var(--ant-color-border-secondary)',
-                        background: 'var(--ant-color-bg-container)',
-                        padding: '18px 0',
+                        borderRadius: token.borderRadiusLG,
+                        border: `1px solid ${token.colorBorderSecondary}`,
+                        background: token.colorBgContainer,
+                        padding: `${token.paddingMD}px 0`,
                         cursor: 'pointer',
                         transition: 'box-shadow 0.15s',
                         height: '100%',
@@ -198,8 +200,8 @@ export default function ProductCatalogPage() {
                       }}
                     >
                       {/* Header row */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, padding: '0 16px' }}>
-                        <Typography.Text strong style={{ fontSize: 15, lineHeight: 1.3, flex: 1, minWidth: 0, marginRight: 8 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: token.margin, padding: `0 ${token.padding}px` }}>
+                        <Typography.Text strong style={{ fontSize: 15, lineHeight: 1.3, flex: 1, minWidth: 0, marginRight: token.marginXS }}>
                           <span style={{ display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{product.name}</span>
                         </Typography.Text>
                         <Tag style={{ color: catColor, background: catColor + '14', border: 'none', fontWeight: 500, fontSize: 11, flexShrink: 0, margin: 0 }}>
@@ -208,8 +210,8 @@ export default function ProductCatalogPage() {
                       </div>
 
                       {/* Price */}
-                      <div style={{ marginBottom: 12, padding: '0 16px' }}>
-                        <Typography.Text type="secondary" style={{ fontSize: 11, display: 'block', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      <div style={{ marginBottom: token.marginSM, padding: `0 ${token.padding}px` }}>
+                        <Typography.Text type="secondary" style={{ fontSize: 11, display: 'block', marginBottom: token.marginXXS, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                           Price
                         </Typography.Text>
                         <Typography.Text
@@ -221,11 +223,11 @@ export default function ProductCatalogPage() {
                       </div>
 
                       {/* Divider */}
-                      <div style={{ height: 1, background: 'var(--ant-color-border-secondary)', marginBottom: 12 }} />
+                      <div style={{ height: 1, background: token.colorBorderSecondary, marginBottom: token.marginSM }} />
 
                       {/* Meta row */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, padding: '0 16px' }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: 6, background: st.bg }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: token.marginXS, padding: `0 ${token.padding}px` }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: token.marginXS, padding: pad(token.paddingXXS, token.marginSM), borderRadius: token.borderRadiusSM, background: st.bg }}>
                           <span style={{ width: 6, height: 6, borderRadius: '50%', background: st.color, flexShrink: 0 }} />
                           <Typography.Text style={{ fontSize: 12, fontWeight: 500, color: st.color }}>{product.status}</Typography.Text>
                         </span>

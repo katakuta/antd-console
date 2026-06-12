@@ -76,10 +76,10 @@ export default function FormDemoPage() {
                   <Space key={field.key} align="baseline" style={{ display: 'flex', marginBottom: 8 }}>
                     <Form.Item {...field} name={[field.name, 'key']} rules={[{ required: true, message: 'Key required' }]}><Input placeholder="Key" style={{ width: 200 }} /></Form.Item>
                     <Form.Item {...field} name={[field.name, 'value']} rules={[{ required: true, message: 'Value required' }]}><Input placeholder="Value" style={{ width: 260 }} /></Form.Item>
-                    {fields.length > 1 && <Button type="text" danger icon={<MinusCircle size={16} />} onClick={() => remove(field.name)} />}
+                    {fields.length > 1 && <Button type="text" danger icon={<MinusCircle size="middle" />} onClick={() => remove(field.name)} />}
                   </Space>
                 ))}
-                <Button type="dashed" onClick={() => add({ key: '', value: '' })} block icon={<Plus size={16} />}>Add Field</Button>
+                <Button type="dashed" onClick={() => add({ key: '', value: '' })} block icon={<Plus size="middle" />}>Add Field</Button>
               </>)}
             </Form.List>
             <Form.Item style={{ marginTop: 16 }}><Button type="primary" htmlType="submit">{t('common.submit')}</Button></Form.Item>
@@ -90,7 +90,7 @@ export default function FormDemoPage() {
   ];
 
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       <div>
         <Typography.Title level={2} style={{ marginTop: 0, marginBottom: 4 }}>{t('formDemo.title')}</Typography.Title>
         <Typography.Text type="secondary">{t('formDemo.description')}</Typography.Text>

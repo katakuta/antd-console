@@ -64,7 +64,7 @@ export default function TaskBoardPage() {
   ];
 
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       <div>
         <Typography.Title level={2} style={{ marginTop: 0, marginBottom: 4 }}>{t('nav.taskBoard')}</Typography.Title>
         <Typography.Text type="secondary">Task management with status filtering and progression.</Typography.Text>

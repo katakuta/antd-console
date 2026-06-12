@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Row, Space, Typography } from 'antd';
+import { Card, Col, Row, Space, Typography, theme } from 'antd';
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, Legend,
@@ -45,8 +45,7 @@ const areaData = [
 const margin = { top: 8, right: 16, bottom: 0, left: 0 };
 const tick = { fontSize: 11, fill: 'var(--ant-color-text-secondary)' };
 const axisLine = { stroke: 'var(--ant-color-border-secondary)' };
-const grid = { stroke: 'var(--ant-color-border-secondary)', strokeDasharray: '3 3', strokeWidth: 0.5 };
-const card: React.CSSProperties = { borderRadius: 12, border: '1px solid var(--ant-color-border-secondary)', height: '100%' };
+const gridBase = { strokeDasharray: '3 3', strokeWidth: 0.5 } as const;
 
 function TooltipView({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string }>; label?: string }) {
   if (!active || !payload?.length) return null;
@@ -68,21 +67,25 @@ const legendFn = (v: string) => <span style={{ color: 'var(--ant-color-text-seco
 
 export default function ChartsDemoPage() {
   const { t } = useI18n();
+  const { token } = theme.useToken();
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
+  const cardBd: React.CSSProperties = { borderRadius: token.borderRadiusLG, border: `1px solid ${token.colorBorderSecondary}`, height: '100%' };
+  const chartBody = { padding: pad(token.paddingMD, token.paddingContentHorizontal, token.paddingXS) };
 
   return (
-    <Space direction="vertical" size={20} style={{ width: '100%' }}>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <div>
-        <Typography.Title level={2} style={{ margin: '0 0 4px', fontWeight: 600, letterSpacing: '-0.02em' }}>{t('chartsDemo.title')}</Typography.Title>
+        <Typography.Title level={2} style={{ margin: `0 0 ${token.marginXXS}px`, fontWeight: 600, letterSpacing: '-0.02em' }}>{t('chartsDemo.title')}</Typography.Title>
         <Typography.Text type="secondary" style={{ fontSize: 14 }}>{t('chartsDemo.description')}</Typography.Text>
       </div>
 
       {/* Line + Bar */}
-      <Row gutter={[16, 16]}>
+      <Row gutter={[token.margin, token.margin]}>
         <Col xs={24} lg={12}>
-          <Card title={<Label>Line Chart — Monthly Trends</Label>} style={card} styles={{ body: { padding: '20px 16px 8px' } }}>
+          <Card title={<Label>Line Chart — Monthly Trends</Label>} style={cardBd} styles={{ body: chartBody }}>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={lineData} margin={margin}>
-                <CartesianGrid {...grid} />
+                <CartesianGrid {...gridBase} stroke={token.colorBorderSecondary} />
                 <XAxis dataKey="month" tick={tick} axisLine={axisLine} tickLine={false} />
                 <YAxis tick={tick} axisLine={axisLine} tickLine={false} width={52} />
                 <Tooltip content={<TooltipView />} cursor={{ stroke: P.sapphire + '44', strokeWidth: 1, strokeDasharray: '4 4' }} />
@@ -96,10 +99,10 @@ export default function ChartsDemoPage() {
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <Card title={<Label>Bar Chart — Category Comparison</Label>} style={card} styles={{ body: { padding: '20px 16px 8px' } }}>
+          <Card title={<Label>Bar Chart — Category Comparison</Label>} style={cardBd} styles={{ body: chartBody }}>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={barData} margin={margin} barCategoryGap="28%" maxBarSize={44}>
-                <CartesianGrid {...grid} />
+                <CartesianGrid {...gridBase} stroke={token.colorBorderSecondary} />
                 <XAxis dataKey="name" tick={tick} axisLine={axisLine} tickLine={false} />
                 <YAxis tick={tick} axisLine={axisLine} tickLine={false} width={52} />
                 <Tooltip content={<TooltipView />} cursor={{ fill: 'var(--ant-color-fill-tertiary)', radius: 6 }} />
@@ -111,9 +114,9 @@ export default function ChartsDemoPage() {
       </Row>
 
       {/* Pie + Area */}
-      <Row gutter={[16, 16]}>
+      <Row gutter={[token.margin, token.margin]}>
         <Col xs={24} lg={12}>
-          <Card title={<Label>Pie Chart — Traffic Sources</Label>} style={card} styles={{ body: { padding: '20px 16px 8px' } }}>
+          <Card title={<Label>Pie Chart — Traffic Sources</Label>} style={cardBd} styles={{ body: chartBody }}>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                 <Pie data={pieData} cx="50%" cy="50%" innerRadius={56} outerRadius={100} paddingAngle={3}
@@ -129,10 +132,10 @@ export default function ChartsDemoPage() {
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <Card title={<Label>Area Chart — Revenue vs Cost</Label>} style={card} styles={{ body: { padding: '20px 16px 8px' } }}>
+          <Card title={<Label>Area Chart — Revenue vs Cost</Label>} style={cardBd} styles={{ body: chartBody }}>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={areaData} margin={margin}>
-                <CartesianGrid {...grid} />
+                <CartesianGrid {...gridBase} stroke={token.colorBorderSecondary} />
                 <XAxis dataKey="month" tick={tick} axisLine={axisLine} tickLine={false} />
                 <YAxis tick={tick} axisLine={axisLine} tickLine={false} width={52} />
                 <Tooltip content={<TooltipView />} cursor={{ stroke: P.sapphire + '44', strokeWidth: 1, strokeDasharray: '4 4' }} />
