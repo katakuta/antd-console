@@ -51,7 +51,7 @@ function DescLabel({ icon: Icon, children }: { icon: React.ElementType; children
 export default function ProfilePage() {
   const { t } = useI18n();
   const { token } = theme.useToken();
-  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? v}px ${h ?? v}px`;
   const { message: msgApi } = App.useApp();
   const [loading, setLoading] = React.useState(true);
   const [profile, setProfile] = React.useState<DemoProfile | null>(null);

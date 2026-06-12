@@ -68,7 +68,7 @@ const legendFn = (v: string) => <span style={{ color: 'var(--ant-color-text-seco
 export default function ChartsDemoPage() {
   const { t } = useI18n();
   const { token } = theme.useToken();
-  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? v}px ${h ?? v}px`;
   const cardBd: React.CSSProperties = { borderRadius: token.borderRadiusLG, border: `1px solid ${token.colorBorderSecondary}`, height: '100%' };
   const chartBody = { padding: pad(token.paddingMD, token.paddingContentHorizontal, token.paddingXS) };
 

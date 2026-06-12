@@ -38,7 +38,7 @@ export default function MockDashboardPage() {
   if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 360 }}><Spin size="large" /></div>;
 
   // ── Spacing ──
-  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? v}px ${h ?? v}px`;
   const cardBd: React.CSSProperties = { borderRadius: token.borderRadiusLG, border: `1px solid ${token.colorBorderSecondary}`, height: '100%' };
   const body = { padding: pad(token.paddingMD, token.paddingContentHorizontal) };
   const bodyChart = { padding: pad(token.padding, token.paddingContentHorizontal, token.paddingXXS) };

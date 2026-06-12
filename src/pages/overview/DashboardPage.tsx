@@ -42,7 +42,7 @@ export default function DashboardPage() {
   if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 360 }}><Spin size="large" /></div>;
 
   // ── Spacing helpers ──
-  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? v}px ${h ?? v}px`;
   const cardBody = { padding: pad(token.paddingMD, token.paddingContentHorizontal) };
   const cardBodyChart = { padding: pad(token.padding, token.paddingContentHorizontal, token.paddingXXS) };
   const cardBodySm = { padding: pad(token.paddingSM, token.paddingContentHorizontal, token.padding) };

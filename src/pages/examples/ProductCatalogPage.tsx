@@ -32,7 +32,7 @@ const STATUS_STYLE: Record<string, { color: string; bg: string }> = {
 export default function ProductCatalogPage() {
   const { t } = useI18n();
   const { token } = theme.useToken();
-  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? v}px ${h ?? v}px`;
   const [viewMode, setViewMode] = React.useState<'card' | 'table'>('card');
   const [loading, setLoading] = React.useState(true);
   const [rows, setRows] = React.useState<DemoProduct[]>([]);
