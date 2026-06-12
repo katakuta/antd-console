@@ -158,7 +158,7 @@ export default function ProductCatalogPage() {
         </div>
 
         {loading ? (
-          <Spin style={{ display: 'block', margin: '60px auto' }} />
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 240 }}><Spin /></div>
         ) : rows.length === 0 ? (
           <Empty description={t('common.noData')} />
         ) : viewMode === 'table' ? (

@@ -76,7 +76,7 @@ export default function TaskBoardPage() {
           <Select options={PRIORITY_OPTIONS} value={priorityFilter || undefined} placeholder="Filter by priority"
             style={{ width: 160 }} onChange={(v) => { setPriorityFilter(v); setPageNum(1); }} />
         </Space>
-        {loading ? <Spin style={{ display: 'block', margin: '60px auto' }} /> : (
+        {loading ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 240 }}><Spin /></div> : (
           <DataTable columns={columns} rows={rows} rowActions={rowActions} rowKey="id"
             onRowAction={handleRowAction}
             pagination={{ pageNum, pageSize, total }}

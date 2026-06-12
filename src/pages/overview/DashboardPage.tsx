@@ -39,7 +39,7 @@ export default function DashboardPage() {
     });
   }, []);
 
-  if (loading) return <Spin size="large" style={{ display: 'block', margin: '120px auto' }} />;
+  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 360 }}><Spin size="large" /></div>;
 
   // ── Spacing helpers ──
   const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;

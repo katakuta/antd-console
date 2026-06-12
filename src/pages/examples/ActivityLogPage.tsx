@@ -34,7 +34,7 @@ export default function ActivityLogPage() {
         <Typography.Text type="secondary">Recent system activity feed.</Typography.Text>
       </div>
       <Card>
-        {loading ? <Spin style={{ display: 'block', margin: '60px auto' }} /> :
+        {loading ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 240 }}><Spin /></div> :
           activities.length === 0 ? (
             <Typography.Text type="secondary">{t('common.noData')}</Typography.Text>
           ) : (

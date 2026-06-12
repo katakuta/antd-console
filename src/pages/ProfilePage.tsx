@@ -1,5 +1,5 @@
 import React from 'react';
-import { App, Button, Card, Col, Descriptions, Divider, Form, Input, Modal, Row, Space, Spin, Tag, Typography } from 'antd';
+import { App, Button, Card, Col, Descriptions, Divider, Form, Input, Modal, Row, Space, Spin, Tag, Typography, theme } from 'antd';
 import { Shield, Key, Smartphone, Globe, Clock, Building2, Mail, MapPin, Phone, Layers, CheckCircle, History } from 'lucide-react';
 import { useI18n } from '@/i18n';
 import { mockGetProfile, type DemoProfile } from '@/auth/mock-api';
@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 
 // ── Helpers ──
 
-const cardStyle: React.CSSProperties = { borderRadius: 12, border: '1px solid var(--ant-color-border-secondary)' };
+const cardBd: React.CSSProperties = { borderRadius: 'var(--ant-border-radius-lg)', border: '1px solid var(--ant-color-border-secondary)' };
 
 function iconBg(color: string): React.CSSProperties {
   return {
@@ -26,7 +26,7 @@ function iconBg(color: string): React.CSSProperties {
 
 function CardLabel({ icon, children, color }: { icon: React.ReactNode; children: string; color: string }) {
   return (
-    <Space size={10}>
+    <Space size="small">
       <span style={iconBg(color)}>{icon}</span>
       <Typography.Text style={{ fontSize: 14, fontWeight: 600 }}>{children}</Typography.Text>
     </Space>
@@ -50,6 +50,8 @@ function DescLabel({ icon: Icon, children }: { icon: React.ElementType; children
 
 export default function ProfilePage() {
   const { t } = useI18n();
+  const { token } = theme.useToken();
+  const pad = (v: number, h?: number, b?: number) => `${v}px ${h ?? v}px ${b ?? 0}px ${h ?? v}px`;
   const { message: msgApi } = App.useApp();
   const [loading, setLoading] = React.useState(true);
   const [profile, setProfile] = React.useState<DemoProfile | null>(null);
@@ -62,14 +64,14 @@ export default function ProfilePage() {
     });
   }, []);
 
-  if (loading) return <Spin size="large" style={{ display: 'block', margin: '120px auto' }} />;
+  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 360 }}><Spin size="large" /></div>;
 
   return (
     <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: token.marginSM }}>
         <div>
-          <Typography.Title level={2} style={{ margin: '0 0 2px', fontWeight: 600, letterSpacing: '-0.02em' }}>
+          <Typography.Title level={2} style={{ margin: `0 0 ${token.marginXXS}px`, fontWeight: 600, letterSpacing: '-0.02em' }}>
             {profile?.firstName} {profile?.lastName}
           </Typography.Title>
           <Typography.Text type="secondary" style={{ fontSize: 13 }}>
@@ -88,8 +90,8 @@ export default function ProfilePage() {
             Account Information
           </CardLabel>
         }
-        style={cardStyle}
-        styles={{ body: { padding: '12px 24px 18px' } }}
+        style={cardBd}
+        styles={{ body: { padding: pad(token.paddingSM, token.paddingLG, token.paddingMD) } }}
       >
         <Descriptions column={{ xs: 1, sm: 2, lg: 3 }} size="small" colon={false} labelStyle={descLabelStyle} contentStyle={descContentStyle} style={{ lineHeight: '20px' }}>
           <Descriptions.Item label={<DescLabel icon={Mail}>Email</DescLabel>}>{profile?.email}</Descriptions.Item>
@@ -111,7 +113,7 @@ export default function ProfilePage() {
       </Card>
 
       {/* Roles & Permissions */}
-      <Row gutter={[16, 16]}>
+      <Row gutter={[token.margin, token.margin]}>
         <Col xs={24} lg={12}>
           <Card
             title={
@@ -119,10 +121,10 @@ export default function ProfilePage() {
                 Roles
               </CardLabel>
             }
-            style={cardStyle}
-            styles={{ body: { padding: '12px 24px 18px' } }}
+            style={cardBd}
+            styles={{ body: { padding: pad(token.paddingSM, token.paddingLG, token.paddingMD) } }}
           >
-            <Space wrap size={8}>
+            <Space wrap size="small">
               {(profile?.roles ?? []).map((r) => (
                 <Tag
                   key={r}
@@ -149,10 +151,10 @@ export default function ProfilePage() {
                 Permissions
               </CardLabel>
             }
-            style={cardStyle}
-            styles={{ body: { padding: '12px 24px 18px' } }}
+            style={cardBd}
+            styles={{ body: { padding: pad(token.paddingSM, token.paddingLG, token.paddingMD) } }}
           >
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: token.marginXS }}>
               {(profile?.permissions ?? []).map((p) => (
                 <Tag key={p} style={{ fontSize: 11, borderRadius: 4, background: 'var(--ant-color-fill-secondary)', border: 'none', color: 'var(--ant-color-text-secondary)' }}>
                   {p}
@@ -170,8 +172,8 @@ export default function ProfilePage() {
             Security
           </CardLabel>
         }
-        style={cardStyle}
-        styles={{ body: { padding: '10px 24px 18px' } }}
+        style={cardBd}
+        styles={{ body: { padding: pad(token.paddingSM, token.paddingLG, token.paddingMD) } }}
       >
         <Space direction="vertical" size={0} style={{ width: '100%' }}>
           <RowItem
@@ -183,13 +185,13 @@ export default function ProfilePage() {
               </Button>
             }
           />
-          <Divider style={{ margin: '2px 0' }} />
+          <Divider style={{ margin: `${token.marginXXS}px 0` }} />
           <RowItem
             title="Two-Factor Authentication"
             subtitle={profile?.twoFactorEnabled ? 'Enabled' : 'Disabled'}
             action={<Tag color={profile?.twoFactorEnabled ? 'green' : 'default'}>{profile?.twoFactorEnabled ? 'Active' : 'Inactive'}</Tag>}
           />
-          <Divider style={{ margin: '10px 0' }} />
+          <Divider style={{ margin: `${token.marginSM}px 0` }} />
           <RowItem
             title="Active Sessions"
             subtitle={`${profile?.sessionCount} device${profile?.sessionCount !== 1 ? 's' : ''} signed in`}
@@ -220,7 +222,7 @@ function RowItem({ title, subtitle, action }: { title: string; subtitle: string;
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0' }}>
       <div>
         <Typography.Text style={{ fontSize: 14, fontWeight: 500 }}>{title}</Typography.Text>
-        <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12, marginTop: 1 }}>
+        <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12, marginTop: 2 }}>
           {subtitle}
         </Typography.Text>
       </div>
